@@ -1,67 +1,32 @@
-package ifsuldeminas.bcc.PrimeiroProjeto.Endenty;
+package ifsuldeminas.bcc.PrimeiroProjeto.Entity;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+@Entity
 public class Agenda {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataCompromisso;
+
+    @ManyToOne
     private Cliente cliente;
+
+    @ManyToOne
     private Funcionario funcionario;
+
+    @ManyToOne
     private Carro carro;
-    private String Descricao;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getDataCompromisso() {
-        return dataCompromisso;
-    }
-
-    public void setDataCompromisso(Date dataCompromisso) {
-        this.dataCompromisso = dataCompromisso;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Carro getCarro() {
-        return carro;
-    }
-
-    public void setCarro(Carro carro) {
-        this.carro = carro;
-    }
-
-    public String getDescricao() {
-        return Descricao;
-    }
-
-    public void setDescricao(String Descricao) {
-        this.Descricao = Descricao;
-    }
-    public Agenda(Date dataCompromisso, Cliente cliente, Funcionario funcionario, Carro carro) {
-        this.dataCompromisso = dataCompromisso;
-        this.cliente = cliente;
-        this.funcionario = funcionario;
-        this.carro = carro;
-    }
-
-    public Funcionario getFuncionario() {
-        return funcionario;
-    }
-
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
-    }
-
+    private String descricao;
 }
