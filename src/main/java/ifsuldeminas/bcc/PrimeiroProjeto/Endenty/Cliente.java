@@ -1,19 +1,25 @@
-package ifsuldeminas.bcc.PrimeiroProjeto.Endenty;
+package ifsuldeminas.bcc.PrimeiroProjeto.Entity;
 
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "ID")
 public class Cliente extends Individuo {
+    // Construtores, getters e setters...
 
-    private Long id;
-
-    public Long getId() {
-        return id;
+    public Cliente() {
+        // Construtor padrão
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Cliente(Long id, long ID, String nome, String cpf, String telefone, String dataNascimento, String endereco) {
+    public Cliente(Long id, Long ID, String nome, String cpf, String telefone, String dataNascimento, String endereco) {
         super(ID, nome, cpf, telefone, dataNascimento, endereco);
-        this.id = id;
     }
+
+    // Outras anotações, getters e setters...
 }
