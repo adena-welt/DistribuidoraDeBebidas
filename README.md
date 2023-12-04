@@ -1,1 +1,1 @@
-Reunimos na casa dos colegas de trabalho e programamos juntos, foram 2 dias. No feriado do dia das crianças e Hoje na data de entrega. Tivemos problemas com o repositorio original pois Acabamos lançando commits fora de ordem e resolvemos lançar de novo com as classes onde cada um fez. Não gastamos 2 dias, juntamos para fazer outros trabalhos também. 
+
