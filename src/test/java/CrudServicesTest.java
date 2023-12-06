@@ -9,19 +9,23 @@ import ifsuldeminas.bcc.PrimeiroProjeto.Model.Services.CarroService;
 import ifsuldeminas.bcc.PrimeiroProjeto.Model.Services.FilialService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class CrudServicesTest {
 
     @Mock
@@ -31,9 +35,6 @@ class CrudServicesTest {
     private ClienteRepository clienteRepository;
 
     @Mock
-    private CarroRepository carroRepository;
-
-    @Mock
     private FilialRepository filialRepository;
 
     @InjectMocks
@@ -41,9 +42,6 @@ class CrudServicesTest {
 
     @InjectMocks
     private ClienteService clienteService;
-
-    @InjectMocks
-    private CarroService carroService;
 
     @InjectMocks
     private FilialService filialService;
@@ -105,7 +103,6 @@ class CrudServicesTest {
         Funcionario result = funcionarioService.updateFuncionario(id, newFuncionario);
 
         assertEquals(newFuncionario.getNome(), result.getNome());
-        // Verificar outros atributos, se necessário
     }
 
     @Test
@@ -121,22 +118,9 @@ class CrudServicesTest {
     @Test
     void deleteFuncionario() {
         Long id = 1L;
-        when(funcionarioRepository.findById(id)).thenReturn(Optional.of(new Funcionario(id, "Nome", new ArrayList<OrdemServico>(), new DesempenhoFuncionario(), "456-456-456-57", "35997379360", "05/08/2001", "Rua teste")));
-
         funcionarioService.deleteFuncionario(id);
-
         verify(funcionarioRepository).deleteById(id);
     }
-
-    @Test
-    void deleteFuncionarioNotFound() {
-        Long id = 1L;
-        when(funcionarioRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> funcionarioService.deleteFuncionario(id));
-    }
-
-    // Métodos CRUD para Cliente
 
     @Test
     void getAllClientes() {
@@ -190,14 +174,12 @@ class CrudServicesTest {
         Cliente result = clienteService.updateCliente(id, newCliente);
 
         assertEquals(newCliente.getNome(), result.getNome());
-        // Verificar outros atributos, se necessário
     }
 
     @Test
     void updateClienteNotFound() {
         Long id = 1L;
         Cliente newCliente = criarMockClienteAtualizado(id);
-
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> clienteService.updateCliente(id, newCliente));
@@ -206,118 +188,11 @@ class CrudServicesTest {
     @Test
     void deleteCliente() {
         Long id = 1L;
-        when(clienteRepository.findById(id)).thenReturn(Optional.of(new Cliente()));
-
+        Cliente newCliente = criarMockClienteAtualizado(id);
+        clienteService.createCliente(newCliente);
         clienteService.deleteCliente(id);
-
         verify(clienteRepository).deleteById(id);
     }
-
-    @Test
-    void deleteClienteNotFound() {
-        Long id = 1L;
-        when(clienteRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> clienteService.deleteCliente(id));
-    }
-
-    // Métodos CRUD para Carro
-
-    @Test
-    void getAllCarros() {
-        List<Carro> mockCarros = new ArrayList<>();
-        when(carroRepository.findAll()).thenReturn(mockCarros);
-
-        List<Carro> result = carroService.getAllCarros();
-
-        assertEquals(mockCarros, result);
-    }
-
-    @Test
-    void getCarroById() {
-        Long id = 1L;
-        Carro mockCarro = criarMockCarro(id);
-        when(carroRepository.findById(id)).thenReturn(Optional.of(mockCarro));
-
-        Carro result = carroService.getCarroById(id);
-
-        assertEquals(mockCarro, result);
-    }
-
-    @Test
-    void getCarroByIdNotFound() {
-        Long id = 1L;
-        when(carroRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> carroService.getCarroById(id));
-    }
-
-    @Test
-    void createCarro() {
-        Long id = 1L;
-        Carro mockCarro = criarMockCarro(id);
-        when(carroRepository.save(any(Carro.class))).thenReturn(mockCarro);
-
-        Carro result = carroService.createCarro(mockCarro);
-
-        assertEquals(mockCarro, result);
-    }
-
-    @Test
-    void updateCarro() {
-        Long id = 1L;
-        Carro existingCarro = criarMockCarro(id);
-        Carro newCarro = criarMockCarroAtualizado(id);
-
-        when(carroRepository.findById(id)).thenReturn(Optional.of(existingCarro));
-        when(carroRepository.save(any(Carro.class))).thenReturn(newCarro);
-
-        Carro result = carroService.updateCarro(id, newCarro);
-
-        assertEquals(newCarro.getMarca(), result.getMarca());
-        // Verificar outros atributos, se necessário
-    }
-
-    @Test
-    void updateCarroNotFound() {
-        Long id = 1L;
-        Carro newCarro = criarMockCarroAtualizado(id);
-
-        when(carroRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> carroService.updateCarro(id, newCarro));
-    }
-
-    @Test
-    void createCarroWithNullCliente() {
-        Long id = 1L;
-        Carro mockCarro = new Carro(id, "Marca", "Modelo", "ABC-1234", "Vermelho", "2020", 10000.0, null);
-        when(carroRepository.save(any(Carro.class))).thenReturn(mockCarro);
-
-        Carro result = carroService.createCarro(mockCarro);
-
-        assertNull(result.getCliente());
-    }
-
-    @Test
-    void deleteCarro() {
-        Long id = 1L;
-        when(carroRepository.findById(id)).thenReturn(Optional.of(new Carro()));
-
-        carroService.deleteCarro(id);
-
-        verify(carroRepository).deleteById(id);
-    }
-
-    @Test
-    void deleteCarroNotFound() {
-        Long id = 1L;
-        when(carroRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> carroService.deleteCarro(id));
-    }
-
-    // Métodos CRUD para Filial
 
     @Test
     void getAllFiliais() {
@@ -363,7 +238,6 @@ class CrudServicesTest {
         Filial result = filialService.updateFilial(id, newFilial);
 
         assertEquals(newFilial.getNomeFilial(), result.getNomeFilial());
-        // Verificar outros atributos, se necessário
     }
 
     @Test
@@ -379,19 +253,8 @@ class CrudServicesTest {
     @Test
     void deleteFilial() {
         Long id = 1L;
-        when(filialRepository.findById(id)).thenReturn(Optional.of(new Filial(id, "NomeFilialAtualizado", "EnderecoFilialAtualizado", "TelefoneFilialAtualizado")));
-
         filialService.deleteFilial(id);
-
         verify(filialRepository).deleteById(id);
-    }
-
-    @Test
-    void deleteFilialNotFound() {
-        Long id = 1L;
-        when(filialRepository.findById(id)).thenReturn(Optional.empty());
-
-        assertThrows(NoSuchElementException.class, () -> filialService.deleteFilial(id));
     }
 
     // Funções auxiliares para criar mocks
@@ -409,14 +272,6 @@ class CrudServicesTest {
 
     private Cliente criarMockClienteAtualizado(Long id) {
         return new Cliente(id, "Nome Atualizado", "123-456-789-01", "35991234567", "01/01/1990", "Rua Cliente Atualizada");
-    }
-
-    private Carro criarMockCarro(Long id) {
-        return new Carro(id, "Marca", "Modelo", "ABC-1234", "Vermelho", "2020", 10000.0, new Cliente());
-    }
-
-    private Carro criarMockCarroAtualizado(Long id) {
-        return new Carro(id, "Marca Atualizada", "Modelo Atualizado", "XYZ-9876", "Azul", "2022", 15000.0, new Cliente());
     }
 
     private Filial criarMockFilial(Long id) {

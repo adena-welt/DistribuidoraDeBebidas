@@ -3,8 +3,6 @@ package ifsuldeminas.bcc.PrimeiroProjeto.Model.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
 public class Carro {
@@ -85,5 +83,14 @@ public class Carro {
         this.quilometragem = quilometragem;
     }
 
-
+    public Carro(){}
+    public Carro(Long id, String marca, String modelo, String placa, String cor, String ano, double quilometragem) {
+        this.id = id;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.placa = placa;
+        this.cor = cor;
+        this.ano = ano;
+        this.quilometragem = quilometragem;
+    }
 }
