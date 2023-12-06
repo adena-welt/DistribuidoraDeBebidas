@@ -1,5 +1,6 @@
 package ifsuldeminas.bcc.PrimeiroProjeto.Model.Entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +33,7 @@ public class Agenda {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public Date getDataCompromisso() {
         return dataCompromisso;
     }

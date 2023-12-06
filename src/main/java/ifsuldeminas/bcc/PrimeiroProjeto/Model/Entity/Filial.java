@@ -46,4 +46,11 @@ public class Filial {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    public Filial(Long id, String nomeFilial, String endereco, String telefone) {
+        this.id = id;
+        this.nomeFilial = nomeFilial;
+        this.endereco = endereco;
+        this.telefone = telefone;
+    }
 }

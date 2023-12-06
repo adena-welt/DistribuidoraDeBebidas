@@ -17,10 +17,10 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Adiciona o Spring Data JPA
-	implementation 'org.projectlombok:lombok' // Adiciona o Lombok
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'com.h2database:h2'
+	implementation 'mysql:mysql-connector-java:8.0.23' // Adiciona o driver JDBC do MySQL
 
 	// JUnit 5
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
@@ -29,6 +29,7 @@ dependencies {
 	// Mockito
 	testImplementation 'org.mockito:mockito-core:3.12.4'
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
